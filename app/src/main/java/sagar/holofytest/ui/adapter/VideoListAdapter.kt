@@ -48,9 +48,11 @@ class VideoListAdapter(private val context: Context, private val itemClickListen
 
             tvTitle.text = videoList[position].title
 
+            //initialize exoplayer
             val exoPlayer = SimpleExoPlayer.Builder(context).build()
             playerView.player = exoPlayer
 
+            //set media to exoplayer
             val mediaItem = MediaItem.fromUri(videoList[position].url!!)
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
@@ -58,12 +60,10 @@ class VideoListAdapter(private val context: Context, private val itemClickListen
             exoPlayer.volume = 0f
             exoPlayer.repeatMode = SimpleExoPlayer.REPEAT_MODE_ONE
 
-            ViewCompat.setTransitionName(playerView, videoList[position].title)
             ViewCompat.setTransitionName(cvPlayerView, videoList[position].title)
-            ViewCompat.setTransitionName(tvTitle, videoList[position].title+videoList[position].title)
 
             itemView.setOnClickListener {
-                itemClickListener.onItemClick(position, videoList[position], playerView, cvPlayerView, tvTitle)
+                itemClickListener.onItemClick(position, videoList[position], playerView, cvPlayerView)
             }
 
         }

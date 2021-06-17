@@ -13,12 +13,26 @@
         android:layout_margin="10dp"
         app:cardCornerRadius="4dp">
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/playerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:use_controller="false"
-            app:resize_mode="zoom" />
+            android:layout_height="match_parent">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:use_controller="false"
+                app:resize_mode="zoom" />
+
+            <ImageView
+                android:id="@+id/ivPlayVideo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_play_video"
+                android:background="@drawable/circle_transparent_black"/>
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

@@ -8,6 +8,6 @@ import sagar.holofytest.model.VideoModel
 
 interface ItemClickListener {
 
-    fun onItemClick(pos: Int, item: VideoModel, playerView: PlayerView, cvPlayerView: CardView, tvTitle: TextView)
+    fun onItemClick(pos: Int, item: VideoModel, playerView: PlayerView, cvPlayerView: CardView)
 
 }

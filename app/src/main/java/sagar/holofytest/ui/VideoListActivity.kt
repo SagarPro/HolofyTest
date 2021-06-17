@@ -45,16 +45,14 @@ class VideoListActivity : BaseActivity<VideoViewModel>(), ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.sharedElementExitTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
-        }
-
+        //set adapter to assign to recyclerView
         videoListAdapter = VideoListAdapter(this, this)
         val linearLayoutManager = LinearLayoutManager(this)
         rvVideos.layoutManager = linearLayoutManager
         rvVideos.itemAnimator = DefaultItemAnimator()
         rvVideos.adapter = videoListAdapter
 
+        //3 video model to add into recyclerView
         val video1 = VideoModel(
             RawResourceDataSource.buildRawResourceUri(R.raw.sample_video_3).toString(),
             resources.getString(R.string.video_title_1),
@@ -80,36 +78,34 @@ class VideoListActivity : BaseActivity<VideoViewModel>(), ItemClickListener {
 
         videoListAdapter.addVideos(videoList)
 
+        //specifies when the transition animation should be done
         postponeEnterTransition()
         rvVideos.doOnPreDraw {
             startPostponedEnterTransition()
         }
     }
 
-    override fun onItemClick(pos: Int, item: VideoModel, playerView: PlayerView, cvPlayerView: CardView, tvTitle: TextView) {
+    override fun onItemClick(pos: Int, item: VideoModel, playerView: PlayerView, cvPlayerView: CardView) {
 
         val intent = Intent(this, VideoDetailsActivity::class.java)
-        intent.putExtra("EXTRA_VIDEO_ITEM", item)
+        intent.putExtra("EXTRA_VIDEO_ITEM", item) //video item
         intent.putExtra(
             "EXTRA_VIDEO_PLAYER_TRANSITION_NAME",
             ViewCompat.getTransitionName(cvPlayerView)
-        )
-        intent.putExtra(
-            "EXTRA_VIDEO_TITLE_TRANSITION_NAME",
-            ViewCompat.getTransitionName(tvTitle)
-        )
+        ) //cardView transition name
 
-        val pair1 = Pair.create(cvPlayerView as View, ViewCompat.getTransitionName(cvPlayerView)!!)
-        val pair2 = Pair.create(tvTitle as View, ViewCompat.getTransitionName(tvTitle)!!)
-
+        //shared transition to cardView
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this,
-            pair1,
-            pair2
+            cvPlayerView,
+            ViewCompat.getTransitionName(cvPlayerView)!!
         )
 
-        VideoVariables.videoCurrentPosition = playerView.player!!.currentPosition
+        //set original player and player view
+        VideoVariables.currentPlayer = playerView.player
+        VideoVariables.currentPlayerView = playerView
 
+        //start activity with shared transition animation on cardView
         startActivity(intent, options.toBundle())
 
     }
