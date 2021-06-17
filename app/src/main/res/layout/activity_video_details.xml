@@ -6,31 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ui.VideoDetailsActivity">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/playerView"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvPlayerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:use_controller="false"
-        app:resize_mode="zoom" />
+        android:layout_margin="10dp"
+        app:cardCornerRadius="4dp">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:use_controller="false"
+            app:resize_mode="zoom" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_margin="20dp"
-        android:textColor="@color/design_default_color_primary_dark"
-        android:layout_below="@+id/playerView"/>
+        android:textColor="@color/colorTitle"
+        android:layout_below="@+id/cvPlayerView"/>
 
     <TextView
         android:id="@+id/tvDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:layout_margin="20dp"
-        android:textColor="@color/design_default_color_primary_dark"
+        android:textColor="@color/colorSubTitle"
         android:layout_below="@+id/tvTitle"/>
 
 </RelativeLayout>

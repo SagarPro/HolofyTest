@@ -2,8 +2,9 @@ package sagar.holofytest.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.transition.TransitionInflater
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
@@ -17,6 +18,7 @@ class VideoDetailsActivity : BaseActivity<VideoViewModel>() {
 
     private lateinit var exoPlayer: SimpleExoPlayer
 
+    private lateinit var cvPlayerView: CardView
     private lateinit var playerView: PlayerView
     private lateinit var tvTitle: TextView
     private lateinit var tvDesc: TextView
@@ -30,6 +32,7 @@ class VideoDetailsActivity : BaseActivity<VideoViewModel>() {
     }
 
     override fun initViews() {
+        cvPlayerView = findViewById(R.id.cvPlayerView)
         playerView = findViewById(R.id.playerView)
         tvTitle = findViewById(R.id.tvTitle)
         tvDesc = findViewById(R.id.tvDesc)
@@ -38,12 +41,19 @@ class VideoDetailsActivity : BaseActivity<VideoViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.sharedElementEnterTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
+            window.sharedElementExitTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
+        }
+
         val extras = intent.extras
         val videoItem: VideoModel = extras?.getParcelable("EXTRA_VIDEO_ITEM")!!
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val videoPlayerTransitionName = extras.getString("EXTRA_VIDEO_PLAYER_TRANSITION_NAME")
-            playerView.transitionName = videoPlayerTransitionName
+            cvPlayerView.transitionName = videoPlayerTransitionName
+            val videoTitleTransitionName = extras.getString("EXTRA_VIDEO_TITLE_TRANSITION_NAME")
+            tvTitle.transitionName = videoTitleTransitionName
         }
 
         tvTitle.text = videoItem.title

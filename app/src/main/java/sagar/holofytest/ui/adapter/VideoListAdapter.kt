@@ -4,16 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 import sagar.holofytest.R
 import sagar.holofytest.interfaces.ItemClickListener
 import sagar.holofytest.model.VideoModel
-import sagar.holofytest.utils.VideoVariables
 
 class VideoListAdapter(private val context: Context, private val itemClickListener: ItemClickListener): RecyclerView.Adapter<VideoListAdapter.VideoListHolder>() {
 
@@ -40,9 +40,13 @@ class VideoListAdapter(private val context: Context, private val itemClickListen
 
     inner class VideoListHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
+        private val cvPlayerView: CardView = itemView.findViewById(R.id.cvPlayerView)
         private val playerView: PlayerView = itemView.findViewById(R.id.playerView)
+        private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
 
         fun onBind(position: Int){
+
+            tvTitle.text = videoList[position].title
 
             val exoPlayer = SimpleExoPlayer.Builder(context).build()
             playerView.player = exoPlayer
@@ -55,9 +59,11 @@ class VideoListAdapter(private val context: Context, private val itemClickListen
             exoPlayer.repeatMode = SimpleExoPlayer.REPEAT_MODE_ONE
 
             ViewCompat.setTransitionName(playerView, videoList[position].title)
+            ViewCompat.setTransitionName(cvPlayerView, videoList[position].title)
+            ViewCompat.setTransitionName(tvTitle, videoList[position].title+videoList[position].title)
 
             itemView.setOnClickListener {
-                itemClickListener.onItemClick(position, videoList[position], playerView, mediaItem)
+                itemClickListener.onItemClick(position, videoList[position], playerView, cvPlayerView, tvTitle)
             }
 
         }
