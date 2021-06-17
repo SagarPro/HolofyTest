@@ -1,26 +1,19 @@
 package sagar.holofytest.model
 
-class VideoModel {
+import android.os.Parcel
+import android.os.Parcelable
 
-    var url: String? = null
-    var title: String? = null
-    var desc: String? = null
-
-    constructor(){}
-    constructor(url: String?, title: String?, desc: String?) {
-        this.url = url
-        this.title = title
-        this.desc = desc
-    }
-
-}
-
-/*
 class VideoModel() : Parcelable {
 
     var url: String? = null
     var title: String? = null
     var desc: String? = null
+
+    constructor(url: String?, title: String?, desc: String?) : this() {
+        this.url = url
+        this.title = title
+        this.desc = desc
+    }
 
     constructor(parcel: Parcel) : this() {
         url = parcel.readString()
@@ -48,4 +41,4 @@ class VideoModel() : Parcelable {
         return 0
     }
 
-}*/
+}
