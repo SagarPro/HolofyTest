@@ -99,14 +99,27 @@ class VideoDetailsActivity : BaseActivity<VideoViewModel>() {
 
     private fun checkForPlayingVideo(){
         if (isVideoPlaying){
-            isVideoPlaying = false
-            ivPlayVideo.visibility = View.VISIBLE
-            playerView.player?.pause()
+            pauseVideo()
         } else {
-            isVideoPlaying = true
-            ivPlayVideo.visibility = View.GONE
-            playerView.player?.play()
+            playVideo()
         }
+    }
+
+    private fun pauseVideo(){
+        isVideoPlaying = false
+        ivPlayVideo.visibility = View.VISIBLE
+        playerView.player?.pause()
+    }
+
+    private fun playVideo(){
+        isVideoPlaying = true
+        ivPlayVideo.visibility = View.GONE
+        playerView.player?.play()
+    }
+
+    override fun onPause() {
+        pauseVideo()
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -121,9 +134,7 @@ class VideoDetailsActivity : BaseActivity<VideoViewModel>() {
 
         //check if video is paused, play video before exiting this activity
         if (!isVideoPlaying){
-            isVideoPlaying = true
-            ivPlayVideo.visibility = View.GONE
-            VideoVariables.currentPlayerView!!.player?.play()
+            playVideo()
         }
 
         super.onDestroy()
